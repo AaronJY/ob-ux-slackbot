@@ -1,6 +1,6 @@
 const ChannelSuffix = '-ur';
 const config = require('./config');
-var WebClient = require('@slack/confclient').WebClient;
+var WebClient = require('@slack/client').WebClient;
 var RtmClient = require('@slack/client').RtmClient;
 const CLIENT_EVENTS = require('@slack/client').CLIENT_EVENTS;
 const RTM_EVENTS = require('@slack/client').RTM_EVENTS;
