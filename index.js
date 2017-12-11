@@ -1,24 +1,20 @@
 const ChannelSuffix = '-ur';
-const config = require('./config').config;
+const config = require('./configManager').config;
 var WebClient = require('@slack/client').WebClient;
 var RtmClient = require('@slack/client').RtmClient;
-
 const CLIENT_EVENTS = require('@slack/client').CLIENT_EVENTS;
 const RTM_EVENTS = require('@slack/client').RTM_EVENTS;
+const ApiToken = process.env.apiToken || config.apiToken;
 
-const ApiToken = process.env.token || config.apiToken;
-
-var web = new WebClient(ApiToken);
-var rtm = new RtmClient(ApiToken);
-
-var botUserId;
+var web = new WebClient(ApiToken),
+    rtm = new RtmClient(ApiToken),
+    botUserId;
 
 console.log('Starting...');
 
 rtm.on(CLIENT_EVENTS.RTM.AUTHENTICATED, (rtmStartData) =>  {
     botUserId = rtmStartData.self.id;
-    console.log(botUserId);
-    console.log(`Logged in as ${rtmStartData.self.name} of team ${rtmStartData.team.name}`);
+    console.log(`Logged in as ${rtmStartData.self.name} (${botUserId}) of team ${rtmStartData.team.name}`);
 
     if (config.sendAlertToExistingOnStart) {
         rtmStartData.channels.forEach((channel) => {
@@ -63,7 +59,7 @@ function sendAlert(channelId) {
         throw 'channelId must be given';
     }
 
-    web.chat.postMessage(channelId, ChannelMessage, (err, res) => {
+    web.chat.postMessage(channelId, config.alert, (err, res) => {
         if (err) {
             console.log(`Error: ${err}`);
         }

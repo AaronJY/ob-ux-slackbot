@@ -3,3 +3,5 @@ var config = {
     sendAlertToExistingOnStart: false,
     alert: ''
 };
+
+module.exports = config;
