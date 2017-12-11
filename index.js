@@ -37,21 +37,8 @@ rtm.on(RTM_EVENTS.CHANNEL_CREATED, (data) => {
 
 function alertChannelIfApplicable(channelId, channelName) {
     if (channelName.endsWith(ChannelSuffix)) {
-        joinChannel(channelId);
         sendAlert(channelId);
     }
-}
-
-function joinChannel(channelId = null) {
-    if (!channelId) {
-        throw 'channelId must be given';
-    }
-
-    web.channels.invite(channelId, botUserId, (err, res) => {
-        if (err) {
-            console.log(`Error: ${err}`);
-        }
-    });
 }
 
 function sendAlert(channelId) {
@@ -59,7 +46,13 @@ function sendAlert(channelId) {
         throw 'channelId must be given';
     }
 
-    web.chat.postMessage(channelId, config.alert, (err, res) => {
+    let opts = { 
+        as_user: false,
+        username: config.botUsername,
+        icon_url: config.botIconUrl
+     };
+
+    web.chat.postMessage(channelId, config.alert, opts, (err, res) => {
         if (err) {
             console.log(`Error: ${err}`);
         }
