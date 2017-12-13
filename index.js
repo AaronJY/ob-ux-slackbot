@@ -23,7 +23,7 @@ rtm.on(CLIENT_EVENTS.RTM.AUTHENTICATED, (rtmStartData) =>  {
 });
 
 rtm.on(CLIENT_EVENTS.RTM.RTM_CONNECTION_OPENED, () => {
-    console.log('RTM connection opened!');
+    console.log('RTM connection opened');
 });
 
 rtm.on(RTM_EVENTS.CHANNEL_RENAME, (data) => {
