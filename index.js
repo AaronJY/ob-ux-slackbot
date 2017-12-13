@@ -32,7 +32,7 @@ rtm.on(RTM_EVENTS.CHANNEL_CREATED, (data) => {
 });
 
 function alertChannelIfApplicable(channelId, channelName) {
-    if (channelName.endsWith(ChannelSuffix)) {
+    if (channelName.endsWith(config.channelSuffix)) {
         sendAlert(channelId);
     }
 }
