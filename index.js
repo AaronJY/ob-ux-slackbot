@@ -1,23 +1,12 @@
-const ChannelSuffix = '-ur';
 const config = require('./config');
-var WebClient = require('@slack/client').WebClient;
-var RtmClient = require('@slack/client').RtmClient;
+const WebClient = require('@slack/client').WebClient;
+const RtmClient = require('@slack/client').RtmClient;
 const CLIENT_EVENTS = require('@slack/client').CLIENT_EVENTS;
 const RTM_EVENTS = require('@slack/client').RTM_EVENTS;
-const ApiToken = process.env.apiToken || config.apiToken;
-const express = require('express');
-const app = express();
 
-var web = new WebClient(ApiToken),
-    rtm = new RtmClient(ApiToken),
+var web = new WebClient(config.apiToken),
+    rtm = new RtmClient(config.apiToken),
     botUserId;
-
-console.log('Starting...');
-
-app.get('/', (req, res) => {
-    res.send('Online!');
-});
-app.listen(process.env.PORT || 5000, () => console.log('listening...'));
 
 rtm.on(CLIENT_EVENTS.RTM.AUTHENTICATED, (rtmStartData) =>  {
     botUserId = rtmStartData.self.id;
@@ -66,4 +55,7 @@ function sendAlert(channelId) {
     });
 }
 
+console.log('Starting...');
+
 rtm.start();
+
