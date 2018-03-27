@@ -60,7 +60,5 @@ function sendAlert(channelId) {
 
 console.log('Starting...');
 
-heroku.keepAlive();
-heroku.bindToHerokuPort();
 rtm.start();
 
